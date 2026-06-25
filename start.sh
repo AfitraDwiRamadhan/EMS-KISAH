@@ -1,14 +1,13 @@
 #!/bin/bash
 
-# 1. Bersihkan cache sistem agar membaca variabel Railway terbaru
-php artisan config:clear
-php artisan cache:clear
+# Bersihkan semua cache agar Laravel 100% membaca Variabel Railway
+php artisan optimize:clear
 
-# 2. Hancurkan database yang setengah jadi dan bangun ulang dari nol (Aman karena belum ada data produksi)
+# Paksa migrasi ulang dari nol
 php artisan migrate:fresh --force
 
-# 3. Hubungkan folder penyimpanan gambar
-php artisan storage:link
+# Buat storage link (Abaikan error jika sudah ada dengan perintah || true)
+php artisan storage:link || true
 
-# 4. Jalankan server Apache di depan layar
+# Jalankan server
 apache2-foreground
