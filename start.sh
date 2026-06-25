@@ -1,13 +1,16 @@
 #!/bin/bash
 
-# Bersihkan semua cache agar Laravel 100% membaca Variabel Railway
+# KUNCI MUTLAK: Paksa terminal untuk menyuapkan variabel MySQL sebelum Laravel berjalan
+export DB_CONNECTION=mysql
+
+# Bersihkan ampas cache lama
 php artisan optimize:clear
 
-# Paksa migrasi ulang dari nol
+# Hancurkan dan bangun ulang database dengan paksa
 php artisan migrate:fresh --force
 
-# Buat storage link (Abaikan error jika sudah ada dengan perintah || true)
+# Amankan jalur storage gambar (abaikan jika error sudah ada)
 php artisan storage:link || true
 
-# Jalankan server
+# Nyalakan server web utama
 apache2-foreground
