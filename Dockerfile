@@ -1,6 +1,10 @@
 # Menggunakan image dasar PHP 8.2 dengan Apache
 FROM php:8.2-apache
 
+# Matikan modul MPM yang berpotensi bentrok di server Cloud (Fix AH00534)
+RUN a2dismod mpm_event mpm_worker || true
+RUN a2enmod mpm_prefork || true
+
 # Install sistem dependensi dan ekstensi PHP yang dibutuhkan Laravel
 RUN apt-get update && apt-get install -y \
     libpq-dev \

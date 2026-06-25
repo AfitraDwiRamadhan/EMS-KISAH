@@ -1,10 +1,14 @@
 #!/bin/bash
 
-# Jalankan migrasi database
-php artisan migrate --force
+# 1. Bersihkan cache sistem agar membaca variabel Railway terbaru
+php artisan config:clear
+php artisan cache:clear
 
-# Buat link storage (opsional jika nanti pakai Cloudinary, tapi kita jalankan saja)
+# 2. Hancurkan database yang setengah jadi dan bangun ulang dari nol (Aman karena belum ada data produksi)
+php artisan migrate:fresh --force
+
+# 3. Hubungkan folder penyimpanan gambar
 php artisan storage:link
 
-# Jalankan server Apache bawaan di depan layar
+# 4. Jalankan server Apache di depan layar
 apache2-foreground
