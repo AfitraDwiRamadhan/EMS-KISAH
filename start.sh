@@ -1,16 +1,17 @@
 #!/bin/bash
 
-# KUNCI MUTLAK: Paksa terminal untuk menyuapkan variabel MySQL sebelum Laravel berjalan
-export DB_CONNECTION=mysql
+# Hapus cache konfigurasi secara harfiah (Bypass Artisan)
+rm -f bootstrap/cache/*.php
 
-# Bersihkan ampas cache lama
-php artisan optimize:clear
+# Terapkan ulang cache dengan variabel baru dari Railway
+php artisan config:clear
+php artisan cache:clear
 
-# Hancurkan dan bangun ulang database dengan paksa
+# Migrasi ulang
 php artisan migrate:fresh --force
 
-# Amankan jalur storage gambar (abaikan jika error sudah ada)
+# Amankan storage
 php artisan storage:link || true
 
-# Nyalakan server web utama
+# Nyalakan server
 apache2-foreground
