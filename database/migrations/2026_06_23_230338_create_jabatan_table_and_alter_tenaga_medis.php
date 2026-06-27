@@ -33,7 +33,7 @@ return new class extends Migration
         DB::table('jabatan')->insert($roles);
 
         // 3. Hancurkan batasan ENUM lama di tabel tenaga_medis, ubah jadi teks bebas
-        DB::statement('ALTER TABLE tenaga_medis MODIFY jabatan VARCHAR(255)');
+        // DB::statement('ALTER TABLE tenaga_medis MODIFY jabatan VARCHAR(255)');
     }
 
     public function down()
