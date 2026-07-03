@@ -65,89 +65,94 @@
                                 <button type="button" class="btn btn-light text-primary btn-sm shadow-sm border" data-bs-toggle="modal" data-bs-target="#modalEditMedis{{ $row->id }}"><i class="fa-solid fa-pen"></i></button>
                                 <form action="{{ route('admin.tenaga_medis.destroy', $row->id) }}" method="POST" class="d-inline">
                                     @csrf @method('DELETE')
-                                    <button type="submit" class="btn btn-light text-danger btn-sm shadow-sm border" onclick="return confirm('Hapus anggota ini?')"><i class="fa-solid fa-trash-can"></i></button>
+                                    <button type="submit" class="btn btn-light text-danger btn-sm shadow-sm border" onclick="return confirm('Hapus anggota {{ addslashes($row->nama) }}?')"><i class="fa-solid fa-trash-can"></i></button>
                                 </form>
                             </td>
                         </tr>
-
-                        <div class="modal fade" id="modalDetail{{ $row->id }}" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered modal-sm">
-                                <div class="modal-content border-0 shadow">
-                                    <div class="modal-header bg-dark text-white border-0 py-3">
-                                        <h6 class="modal-title fw-bold">Detail: {{ $row->nama }}</h6>
-                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                                    </div>
-                                    <div class="modal-body bg-light-subtle p-4">
-                                        <p class="small text-muted mb-1">Username Roblox</p>
-                                        <div class="bg-white p-2 rounded mb-3 font-monospace fw-bold border text-break">{{ $row->username_roblox ?? '-' }}</div>
-                                        <p class="small text-muted mb-1">Username Discord</p>
-                                        <div class="bg-white p-2 rounded font-monospace fw-bold border text-break">{{ $row->username_discord ?? '-' }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="modal fade" id="modalEditMedis{{ $row->id }}" tabindex="-1">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content border-0 shadow">
-                                    <div class="modal-header bg-dark text-white border-0 py-3">
-                                        <h6 class="modal-title fw-bold">Edit Profil</h6>
-                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                                    </div>
-                                    <form action="{{ route('admin.tenaga_medis.update', $row->id) }}" method="POST">
-                                        @csrf @method('PUT')
-                                        <div class="modal-body p-4">
-                                            <div class="row g-3">
-                                                <div class="col-12 col-md-8">
-                                                    <label class="form-label small fw-bold">Nama IC</label>
-                                                    <input type="text" name="nama" class="form-control" value="{{ $row->nama }}" required>
-                                                </div>
-                                                <div class="col-12 col-md-4">
-                                                    <label class="form-label small fw-bold">Usia IC</label>
-                                                    <input type="number" name="usia" class="form-control" value="{{ $row->usia }}">
-                                                </div>
-                                                <div class="col-12 col-md-6">
-                                                    <label class="form-label small fw-bold">Username Roblox</label>
-                                                    <input type="text" name="username_roblox" class="form-control" value="{{ $row->username_roblox }}">
-                                                </div>
-                                                <div class="col-12 col-md-6">
-                                                    <label class="form-label small fw-bold">Username Discord</label>
-                                                    <input type="text" name="username_discord" class="form-control" value="{{ $row->username_discord }}">
-                                                </div>
-                                                <div class="col-12 col-md-6">
-                                                    <label class="form-label small fw-bold">Jabatan</label>
-                                                    <select name="jabatan" class="form-select">
-                                                        @foreach($jabatans as $jb)
-                                                            <option value="{{ $jb->nama_jabatan }}" {{ $row->jabatan == $jb->nama_jabatan ? 'selected' : '' }}>{{ $jb->nama_jabatan }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="col-12 col-md-6">
-                                                    <label class="form-label small fw-bold">Status</label>
-                                                    <select name="status" class="form-select">
-                                                        <option value="Aktif" {{ $row->status == 'Aktif' ? 'selected' : '' }}>Aktif</option>
-                                                        <option value="Cuti" {{ $row->status == 'Cuti' ? 'selected' : '' }}>Cuti</option>
-                                                        <option value="Alumni" {{ $row->status == 'Alumni' ? 'selected' : '' }}>Alumni</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer border-0 bg-light">
-                                            <button type="submit" class="btn btn-primary w-100 fw-bold">Simpan Perubahan</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
                         @empty
                         <tr><td colspan="6" class="text-center py-5">Belum ada anggota.</td></tr>
                         @endforelse
-                    </tbody>
-                </table>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- CONTAINER UNTUK MODAL DETAIL & EDIT (VALID HTML) -->
+@foreach($medis as $row)
+<div class="modal fade" id="modalDetail{{ $row->id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header border-0 py-3">
+                <h6 class="modal-title fw-bold text-white">Detail: {{ $row->nama }}</h6>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <p class="small text-white-50 mb-1">Username Roblox</p>
+                <div class="bg-slate-900 text-white p-2 rounded mb-3 font-monospace fw-bold border border-secondary text-break">{{ $row->username_roblox ?? '-' }}</div>
+                <p class="small text-white-50 mb-1">Username Discord</p>
+                <div class="bg-slate-900 text-white p-2 rounded font-monospace fw-bold border border-secondary text-break">{{ $row->username_discord ?? '-' }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEditMedis{{ $row->id }}" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header border-0 py-3">
+                <h6 class="modal-title fw-bold text-white">Edit Profil</h6>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="{{ route('admin.tenaga_medis.update', $row->id) }}" method="POST">
+                @csrf @method('PUT')
+                <div class="modal-body p-4">
+                    <div class="row g-3">
+                        <div class="col-12 col-md-8">
+                            <label class="form-label small fw-bold text-white-50">Nama IC</label>
+                            <input type="text" name="nama" class="form-control" value="{{ $row->nama }}" required>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label class="form-label small fw-bold text-white-50">Usia IC</label>
+                            <input type="number" name="usia" class="form-control" value="{{ $row->usia }}">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label small fw-bold text-white-50">Username Roblox</label>
+                            <input type="text" name="username_roblox" class="form-control" value="{{ $row->username_roblox }}">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label small fw-bold text-white-50">Username Discord</label>
+                            <input type="text" name="username_discord" class="form-control" value="{{ $row->username_discord }}">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label small fw-bold text-white-50">Jabatan</label>
+                            <select name="jabatan" class="form-select text-dark">
+                                @foreach($jabatans as $jb)
+                                    <option value="{{ $jb->nama_jabatan }}" {{ $row->jabatan == $jb->nama_jabatan ? 'selected' : '' }}>{{ $jb->nama_jabatan }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label small fw-bold text-white-50">Status</label>
+                            <select name="status" class="form-select text-dark">
+                                <option value="Aktif" {{ $row->status == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                                <option value="Cuti" {{ $row->status == 'Cuti' ? 'selected' : '' }}>Cuti</option>
+                                <option value="Alumni" {{ $row->status == 'Alumni' ? 'selected' : '' }}>Alumni</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="submit" class="btn btn-primary w-100 fw-bold">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endforeach
 
 <div class="modal fade" id="modalBulkMedis" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">

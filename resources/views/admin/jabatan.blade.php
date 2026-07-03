@@ -52,44 +52,10 @@
                                         <button type="button" class="btn btn-light text-primary btn-sm shadow-sm border" data-bs-toggle="modal" data-bs-target="#modalEditJabatan{{ $row->id }}"><i class="fa-solid fa-pen"></i></button>
                                         <form action="{{ route('admin.jabatan.destroy', $row->id) }}" method="POST" class="d-inline">
                                             @csrf @method('DELETE')
-                                            <button type="submit" class="btn btn-light text-danger btn-sm shadow-sm border" onclick="return confirm('Yakin ingin menghapus role {{ $row->nama_jabatan }}?')"><i class="fa-solid fa-trash-can"></i></button>
+                                            <button type="submit" class="btn btn-light text-danger btn-sm shadow-sm border" onclick="return confirm('Yakin ingin menghapus role {{ addslashes($row->nama_jabatan) }}?')"><i class="fa-solid fa-trash-can"></i></button>
                                         </form>
                                     </td>
                                 </tr>
-
-                                <!-- MODAL EDIT DATA -->
-                                <div class="modal fade" id="modalEditJabatan{{ $row->id }}" tabindex="-1">
-                                    <div class="modal-dialog modal-dialog-centered modal-sm">
-                                        <div class="modal-content border-0 shadow">
-                                            <div class="modal-header bg-dark text-white border-0 py-3">
-                                                <h6 class="modal-title fw-bold">Edit Jabatan & Gaji</h6>
-                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                                            </div>
-                                            <form action="{{ route('admin.jabatan.update', $row->id) }}" method="POST">
-                                                @csrf @method('PUT')
-                                                <div class="modal-body p-4">
-                                                    <label class="form-label small fw-bold">Nama Jabatan</label>
-                                                    <input type="text" name="nama_jabatan" class="form-control mb-3" value="{{ $row->nama_jabatan }}" required>
-                                                    
-                                                    <label class="form-label small fw-bold">Gaji Mingguan (USD)</label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-text bg-light text-success fw-bold">$</span>
-                                                        <input type="number" step="0.01" name="gaji_mingguan" class="form-control fw-bold font-monospace" value="{{ $row->gaji_mingguan }}" required>
-                                                    </div>
-
-                                                    @if($row->total_anggota > 0)
-                                                        <div class="alert alert-warning mt-3 mb-0" style="font-size: 0.75rem;">
-                                                            <i class="fa-solid fa-circle-info me-1"></i> Perubahan ini akan memengaruhi perhitungan gaji <strong>{{ $row->total_anggota }} anggota</strong>.
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                                <div class="modal-footer border-0 bg-gray-subtle">
-                                                    <button type="submit" class="btn btn-primary w-100 fw-bold">Update & Sinkronkan</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
                                 @empty
                                 <tr><td colspan="5" class="text-center py-5">Belum ada role/jabatan terdaftar.</td></tr>
                                 @endforelse
@@ -102,27 +68,63 @@
     </div>
 </div>
 
+<!-- CONTAINER UNTUK MODAL EDIT JABATAN (VALID HTML) -->
+@foreach($jabatans as $row)
+<div class="modal fade" id="modalEditJabatan{{ $row->id }}" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header border-0 py-3">
+                <h6 class="modal-title fw-bold text-white">Edit Jabatan & Gaji</h6>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="{{ route('admin.jabatan.update', $row->id) }}" method="POST">
+                @csrf @method('PUT')
+                <div class="modal-body p-4">
+                    <label class="form-label small fw-bold text-white-50">Nama Jabatan</label>
+                    <input type="text" name="nama_jabatan" class="form-control mb-3" value="{{ $row->nama_jabatan }}" required>
+                    
+                    <label class="form-label small fw-bold text-white-50">Gaji Mingguan (USD)</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-slate-900 border-secondary text-success fw-bold">$</span>
+                        <input type="number" step="0.01" name="gaji_mingguan" class="form-control border-secondary fw-bold font-monospace bg-slate-800 text-white" value="{{ $row->gaji_mingguan }}" required>
+                    </div>
+
+                    @if($row->total_anggota > 0)
+                        <div class="alert alert-warning mt-3 mb-0" style="font-size: 0.75rem;">
+                            <i class="fa-solid fa-circle-info me-1"></i> Perubahan ini akan memengaruhi perhitungan gaji <strong>{{ $row->total_anggota }} anggota</strong>.
+                        </div>
+                    @endif
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="submit" class="btn btn-primary w-100 fw-bold">Update & Sinkronkan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endforeach
+
 <!-- MODAL TAMBAH JABATAN -->
 <div class="modal fade" id="modalTambahJabatan" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content border-0 shadow">
-            <div class="modal-header bg-primary text-white border-0 py-3">
-                <h6 class="modal-title fw-bold"><i class="fa-solid fa-plus text-warning me-2"></i>Jabatan Baru</h6>
+            <div class="modal-header border-0 py-3">
+                <h6 class="modal-title fw-bold text-white"><i class="fa-solid fa-plus text-warning me-2"></i>Jabatan Baru</h6>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form action="{{ route('admin.jabatan.store') }}" method="POST">
                 @csrf
-                <div class="modal-body p-4 bg-gray">
-                    <label class="form-label small fw-bold text-dark">Nama Jabatan (Role) <span class="text-danger">*</span></label>
+                <div class="modal-body p-4">
+                    <label class="form-label small fw-bold text-white-50">Nama Jabatan (Role) <span class="text-danger">*</span></label>
                     <input type="text" name="nama_jabatan" class="form-control mb-3" placeholder="Cth: Head Paramedic" required>
                     
-                    <label class="form-label small fw-bold text-dark">Gaji Pokok Mingguan ($) <span class="text-danger">*</span></label>
+                    <label class="form-label small fw-bold text-white-50">Gaji Pokok Mingguan ($) <span class="text-danger">*</span></label>
                     <div class="input-group">
-                        <span class="input-group-text bg-light text-success fw-bold">$</span>
-                        <input type="number" step="0.01" name="gaji_mingguan" class="form-control fw-bold font-monospace" placeholder="7600" required>
+                        <span class="input-group-text bg-slate-900 border-secondary text-success fw-bold">$</span>
+                        <input type="number" step="0.01" name="gaji_mingguan" class="form-control border-secondary fw-bold font-monospace bg-slate-800 text-white" placeholder="7600" required>
                     </div>
                 </div>
-                <div class="modal-footer border-0 bg-gray">
+                <div class="modal-footer border-0">
                     <button type="submit" class="btn btn-primary w-100 fw-bold">Tambahkan Jabatan</button>
                 </div>
             </form>

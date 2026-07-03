@@ -160,7 +160,7 @@
                             @endphp
                             <tr>
                                 <td>
-                                    <button type="button" class="btn btn-link p-0 text-decoration-none fw-bolder text-primary text-start detail-btn" data-detail='@json($detail)'>
+                                    <button type="button" class="btn btn-link p-0 text-decoration-none fw-bolder text-primary text-start detail-btn" data-detail="{{ e(json_encode($detail)) }}">
                                         {{ $registration->nama_ic }}
                                     </button>
                                     <div class="text-muted small">{{ $registration->jenis_kelamin }}</div>
@@ -181,7 +181,7 @@
                                 </td>
                                 <td>
                                     <div class="d-flex flex-wrap justify-content-end gap-2">
-                                        <button type="button" class="btn btn-outline-primary btn-sm fw-bold detail-btn" data-detail='@json($detail)'>
+                                        <button type="button" class="btn btn-outline-primary btn-sm fw-bold detail-btn" data-detail="{{ e(json_encode($detail)) }}">
                                             <i class="fa-solid fa-eye"></i>
                                         </button>
 
@@ -238,69 +238,69 @@
 </div>
 
 <div class="modal fade" id="registrationDetailModal" tabindex="-1" aria-labelledby="registrationDetailLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
-        <div class="modal-content border-0 rounded-4 shadow">
-            <div class="modal-header border-0 pb-0">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content border-0 rounded-4 shadow bg-dark text-white">
+            <div class="modal-header border-0 py-3">
                 <div>
-                    <h5 class="modal-title fw-bolder" id="registrationDetailLabel">Detail Pendaftaran</h5>
-                    <p class="text-muted small mb-0" id="detailCreatedAt"></p>
+                    <h5 class="modal-title fw-bolder text-white" id="registrationDetailLabel">Detail Pendaftaran</h5>
+                    <p class="text-white-50 small mb-0" id="detailCreatedAt"></p>
                 </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body text-slate-300">
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
-                        <div class="border rounded-4 p-3 h-100">
-                            <div class="text-muted small fw-bold text-uppercase mb-1">Nama IC</div>
-                            <div class="fw-bolder text-dark" id="detailNama"></div>
+                        <div class="border border-secondary rounded-4 p-3 h-100 bg-slate-900/50">
+                            <div class="text-white-50 small fw-bold text-uppercase mb-1">Nama IC</div>
+                            <div class="fw-bolder text-white fs-5" id="detailNama"></div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="border rounded-4 p-3 h-100">
-                            <div class="text-muted small fw-bold text-uppercase mb-1">Status</div>
+                        <div class="border border-secondary rounded-4 p-3 h-100 bg-slate-900/50">
+                            <div class="text-white-50 small fw-bold text-uppercase mb-1">Status Pendaftaran</div>
                             <div id="detailStatus"></div>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="border rounded-4 p-3 h-100">
-                            <div class="text-muted small fw-bold text-uppercase mb-1">Umur IC/OOC</div>
-                            <div class="fw-semibold" id="detailUmur"></div>
+                        <div class="border border-secondary rounded-4 p-3 h-100 bg-slate-900/50">
+                            <div class="text-white-50 small fw-bold text-uppercase mb-1">Umur IC/OOC</div>
+                            <div class="fw-semibold text-white" id="detailUmur"></div>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="border rounded-4 p-3 h-100">
-                            <div class="text-muted small fw-bold text-uppercase mb-1">Jenis Kelamin</div>
-                            <div class="fw-semibold" id="detailGender"></div>
+                        <div class="border border-secondary rounded-4 p-3 h-100 bg-slate-900/50">
+                            <div class="text-white-50 small fw-bold text-uppercase mb-1">Jenis Kelamin</div>
+                            <div class="fw-semibold text-white" id="detailGender"></div>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="border rounded-4 p-3 h-100">
-                            <div class="text-muted small fw-bold text-uppercase mb-1">Jam Aktif</div>
-                            <div class="fw-semibold" id="detailJamAktif"></div>
+                        <div class="border border-secondary rounded-4 p-3 h-100 bg-slate-900/50">
+                            <div class="text-white-50 small fw-bold text-uppercase mb-1">Jam Aktif</div>
+                            <div class="fw-semibold text-white" id="detailJamAktif"></div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="border rounded-4 p-3 h-100">
-                            <div class="text-muted small fw-bold text-uppercase mb-1">Discord</div>
-                            <div class="fw-semibold" id="detailDiscord"></div>
+                        <div class="border border-secondary rounded-4 p-3 h-100 bg-slate-900/50">
+                            <div class="text-white-50 small fw-bold text-uppercase mb-1">Discord</div>
+                            <div class="fw-semibold text-white" id="detailDiscord"></div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="border rounded-4 p-3 h-100">
-                            <div class="text-muted small fw-bold text-uppercase mb-1">Roblox</div>
-                            <div class="fw-semibold" id="detailRoblox"></div>
+                        <div class="border border-secondary rounded-4 p-3 h-100 bg-slate-900/50">
+                            <div class="text-white-50 small fw-bold text-uppercase mb-1">Roblox</div>
+                            <div class="fw-semibold text-white" id="detailRoblox"></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="border rounded-4 p-3 mb-3">
-                    <div class="text-muted small fw-bold text-uppercase mb-2">Pengalaman</div>
-                    <div class="text-dark small lh-lg" id="detailPengalaman" style="white-space: pre-wrap;"></div>
+                <div class="border border-secondary rounded-4 p-3 mb-3 bg-slate-900/50">
+                    <div class="text-white-50 small fw-bold text-uppercase mb-2">Pengalaman</div>
+                    <div class="text-white small lh-lg font-monospace" id="detailPengalaman" style="white-space: pre-wrap;"></div>
                 </div>
 
-                <div class="border rounded-4 p-3">
-                    <div class="text-muted small fw-bold text-uppercase mb-2">Visi & Misi</div>
-                    <div class="text-dark small lh-lg" id="detailVisiMisi" style="white-space: pre-wrap;"></div>
+                <div class="border border-secondary rounded-4 p-3 bg-slate-900/50">
+                    <div class="text-white-50 small fw-bold text-uppercase mb-2">Visi & Misi</div>
+                    <div class="text-white small lh-lg font-monospace" id="detailVisiMisi" style="white-space: pre-wrap;"></div>
                 </div>
             </div>
         </div>

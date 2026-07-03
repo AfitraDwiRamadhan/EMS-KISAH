@@ -9,7 +9,7 @@
             <h3 class="m-0 fw-bolder text-dark" style="letter-spacing: -0.5px;">EMS KISAH DASHBOARD</h3>
             <p class="text-muted small m-0">EMS KISAH • Overview Beranda Utama</p>
         </div>
-        <div class="d-flex flex-wrap gap-2 w-100 w-md-auto">
+        <div class="d-flex flex-wrap gap-2 w-100 w-sm-auto">
             <div class="badge text-dark border p-2 shadow-sm d-flex align-items-center font-monospace flex-grow-1 justify-content-center" style="font-size: 0.8rem;">
                 <i class="fa-regular fa-calendar text-primary me-2"></i> {{ date('d M Y') }}
             </div>
@@ -34,7 +34,7 @@
                         </select>
                         @if($selected_periode)
                             <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-danger btn-sm px-3 d-flex align-items-center justify-content-center">
-                                <i class="fa-solid fa-xmark"></i> <span class="d-sm-none ms-2">Reset</span>
+                                <i class="fa-solid fa-xmark"></i> <span class="d-none d-sm-inline ms-2">Reset</span>
                             </a>
                         @endif
                     </div>
@@ -253,8 +253,38 @@
         data: {
             labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
             datasets: [
-                { label: 'Pemasukan', data: [0, 0, 0, 0, 0, 0, 0], borderColor: '#ffc107', fill: false, tension: 0.2 },
-                { label: 'Pengeluaran', data: [0, 0, 0, 0, 0, 0, 0], borderColor: '#dc3545', fill: false, tension: 0.2 }
+                { 
+                    label: 'Pemasukan', 
+                    data: [
+                        {{ $keuangan_pemasukan_harian['Senin'] ?? 0 }}, 
+                        {{ $keuangan_pemasukan_harian['Selasa'] ?? 0 }}, 
+                        {{ $keuangan_pemasukan_harian['Rabu'] ?? 0 }}, 
+                        {{ $keuangan_pemasukan_harian['Kamis'] ?? 0 }}, 
+                        {{ $keuangan_pemasukan_harian['Jumat'] ?? 0 }}, 
+                        {{ $keuangan_pemasukan_harian['Sabtu'] ?? 0 }}, 
+                        {{ $keuangan_pemasukan_harian['Minggu'] ?? 0 }}
+                    ], 
+                    borderColor: '#ffc107', 
+                    backgroundColor: 'rgba(255, 193, 7, 0.05)',
+                    fill: true, 
+                    tension: 0.2 
+                },
+                { 
+                    label: 'Pengeluaran', 
+                    data: [
+                        {{ $keuangan_pengeluaran_harian['Senin'] ?? 0 }}, 
+                        {{ $keuangan_pengeluaran_harian['Selasa'] ?? 0 }}, 
+                        {{ $keuangan_pengeluaran_harian['Rabu'] ?? 0 }}, 
+                        {{ $keuangan_pengeluaran_harian['Kamis'] ?? 0 }}, 
+                        {{ $keuangan_pengeluaran_harian['Jumat'] ?? 0 }}, 
+                        {{ $keuangan_pengeluaran_harian['Sabtu'] ?? 0 }}, 
+                        {{ $keuangan_pengeluaran_harian['Minggu'] ?? 0 }}
+                    ], 
+                    borderColor: '#dc3545', 
+                    backgroundColor: 'rgba(220, 53, 69, 0.05)',
+                    fill: true, 
+                    tension: 0.2 
+                }
             ]
         }
     });

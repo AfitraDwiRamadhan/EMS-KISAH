@@ -26,10 +26,11 @@
 @endphp
 
 <div id="parallax-container" class="fixed inset-0 pointer-events-none" style="z-index: -1;">
-    <div class="absolute inset-0 bg-slate-900 z-0"></div> <img src="https://drive.google.com/uc?export=download&id=1vBemwMNyJ4N9_fafldudcPtPdOezo1rL" id="bg-img-1" class="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-in-out opacity-100 z-10">
-    <img src="https://drive.google.com/uc?export=download&id=1TYH3Z1Ki3c_kA3jLGoFYWYWOk1Mhs5WN" id="bg-img-2" class="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-in-out opacity-0 z-10">
-    <img src="https://drive.google.com/uc?export=download&id=1sizxGMf4yuiUueOQOxYCDB5ELn4o6-V8" id="bg-img-3" class="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-in-out opacity-0 z-10">
-    <img src="https://drive.google.com/uc?export=download&id=1VGwdJSrYZ23mWkSCq3OBRiYHjlfQ0Lvv" id="bg-img-4" class="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-in-out opacity-0 z-10">
+    <div class="absolute inset-0 bg-slate-900 z-0"></div> 
+    <img src="https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?q=80&w=1600&auto=format&fit=crop" id="bg-img-1" class="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-in-out opacity-100 z-10">
+    <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=1600&auto=format&fit=crop" id="bg-img-2" class="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-in-out opacity-0 z-10">
+    <img src="https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?q=80&w=1600&auto=format&fit=crop" id="bg-img-3" class="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-in-out opacity-0 z-10">
+    <img src="https://images.unsplash.com/photo-1603398938378-e54eab446dde?q=80&w=1600&auto=format&fit=crop" id="bg-img-4" class="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-in-out opacity-0 z-10">
     
     <div class="absolute inset-0 bg-slate-900/80 z-20"></div>
 </div>
@@ -372,13 +373,16 @@
     </div>
 </section>
 
-</div> <div id="ems-registration-modal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-md p-4 overflow-y-auto" aria-labelledby="ems-modal-title" role="dialog" aria-modal="true">
+</div>
+
+<!-- MODAL PENDAFTARAN EMS -->
+<div id="ems-registration-modal" class="fixed inset-0 z-[100] hidden bg-slate-950/80 backdrop-blur-md p-4 overflow-y-auto" aria-labelledby="ems-modal-title" role="dialog" aria-modal="true">
     <div class="min-h-full w-full flex items-center justify-center py-10">
-        <div id="ems-registration-modal-content" class="w-full max-w-2xl transform scale-95 rounded-2xl bg-slate-900 border-2 border-slate-700 shadow-2xl shadow-red-500/20 transition-all duration-300 flex flex-col">
+        <div id="ems-registration-modal-content" class="w-full max-w-2xl transform scale-95 rounded-2xl bg-slate-900/95 backdrop-blur-md border border-slate-700/80 shadow-2xl shadow-red-500/10 transition-all duration-300 flex flex-col">
             <form id="ems-registration-form" action="{{ route('public.registration.store') }}" method="POST">
                 @csrf
                 <div class="p-6">
-                    <div class="flex items-start justify-between border-b-2 border-slate-800 pb-4">
+                    <div class="flex items-start justify-between border-b border-slate-800 pb-4">
                         <div>
                             <h3 id="ems-modal-title" class="text-2xl font-black uppercase tracking-tight text-white">Formulir Pendaftaran <span class="text-red-500">EMS</span></h3>
                             <p class="mt-1 text-sm font-medium text-slate-400">Batch: {{ $activeBatch?->name ?? 'Tidak Aktif' }}</p>
@@ -459,13 +463,13 @@
 </div>
 
 <!-- MODAL LOGIN -->
-<div id="login-modal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-md p-4 overflow-y-auto" aria-labelledby="login-modal-title" role="dialog" aria-modal="true">
+<div id="login-modal" class="fixed inset-0 z-[100] hidden bg-slate-950/80 backdrop-blur-md p-4 overflow-y-auto" aria-labelledby="login-modal-title" role="dialog" aria-modal="true">
     <div class="min-h-full w-full flex items-center justify-center py-10">
-        <div id="login-modal-content" class="w-full max-w-md transform scale-95 rounded-2xl bg-slate-900 border-2 border-slate-700 shadow-2xl shadow-red-500/20 transition-all duration-300 flex flex-col">
+        <div id="login-modal-content" class="w-full max-w-md transform scale-95 rounded-2xl bg-slate-900/95 backdrop-blur-md border border-slate-700/80 shadow-2xl shadow-red-500/10 transition-all duration-300 flex flex-col">
             <form id="login-form" action="{{ route('petinggi.login.submit') }}" method="POST">
                 @csrf
                 <div class="p-6">
-                    <div class="flex items-start justify-between border-b-2 border-slate-800 pb-4">
+                    <div class="flex items-start justify-between border-b border-slate-800 pb-4">
                         <div>
                             <h3 id="login-modal-title" class="text-2xl font-black uppercase tracking-tight text-white">Login <span class="text-red-500">Petinggi</span></h3>
                             <p class="mt-1 text-sm font-medium text-slate-400">Akses panel admin EMS.</p>
@@ -506,10 +510,11 @@
     </div>
 </div>
 
-<div id="layanan-modal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-md p-4 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+<!-- MODAL LAYANAN MEDIS -->
+<div id="layanan-modal" class="fixed inset-0 z-[100] hidden bg-slate-950/80 backdrop-blur-md p-4 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div class="min-h-full w-full flex items-center justify-center py-10">
-        <div id="layanan-modal-content" class="w-full max-w-xl transform scale-95 rounded-2xl bg-slate-900 border-2 border-slate-700 p-6 shadow-2xl shadow-red-500/20 transition-all duration-300">
-            <div class="flex items-start justify-between border-b-2 border-slate-800 pb-4">
+        <div id="layanan-modal-content" class="w-full max-w-xl transform scale-95 rounded-2xl bg-slate-900/95 backdrop-blur-md border border-slate-700/80 p-6 shadow-2xl shadow-red-500/10 transition-all duration-300">
+            <div class="flex items-start justify-between border-b border-slate-800 pb-4">
                 <h3 id="modal-title" class="text-2xl font-black uppercase text-white">Formulir Layanan: <span class="text-red-500"></span></h3>
                 <button id="modal-close" type="button" class="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-800 text-slate-400 transition hover:bg-red-600 hover:text-white">
                     <i class="fa-solid fa-xmark fa-lg"></i>
@@ -518,8 +523,8 @@
             <div class="mt-4 pt-2">
                 <div id="modal-form-area"></div>
             </div>
-            <div class="mt-6 pt-4 border-t-2 border-slate-800 flex justify-end">
-                <button type="submit" form="dynamic-form" class="w-full rounded-lg bg-red-600 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-red-600/20 transition hover:bg-red-700">
+            <div class="mt-6 pt-4 border-t border-slate-800 flex justify-end">
+                <button type="submit" id="layanan-submit-btn" class="w-full rounded-lg bg-red-600 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-red-600/20 transition hover:bg-red-700">
                     <i class="fa-solid fa-circle-check mr-2"></i> Ambil Nomor Antrean Layanan
                 </button>
             </div>
@@ -840,6 +845,7 @@
 
             const submitLayananUrl = "{{ route('public.layanan.submit') }}";
             const csrfToken = "{{ csrf_token() }}";
+            const submitBtn = document.getElementById('layanan-submit-btn');
 
             const openModal = (card) => {
                 const nama = card.dataset.nama;
@@ -885,6 +891,18 @@
             layananCards.forEach(card => card.addEventListener('click', () => openModal(card)));
             if(modalClose) modalClose.addEventListener('click', closeModal);
             layananModal.addEventListener('click', e => (e.target === layananModal || e.target.firstElementChild === modalContent) && closeModal());
+
+            // Pemicu submit form eksplisit untuk mencegah bug form association
+            if(submitBtn) {
+                submitBtn.addEventListener('click', function(e) {
+                    const dynamicForm = document.getElementById('dynamic-form');
+                    if(dynamicForm) {
+                        dynamicForm.submit();
+                    } else {
+                        closeModal();
+                    }
+                });
+            }
         }
         
         // --- Script untuk EMS Registration Modal ---
@@ -894,6 +912,7 @@
             const closeBtn = document.getElementById('ems-modal-close');
             const cancelBtn = document.getElementById('ems-modal-cancel');
             const modalContent = document.getElementById('ems-registration-modal-content');
+            const layananModal = document.getElementById('layanan-modal');
 
             const openEmsModal = () => {
                 emsRegModal.classList.remove('hidden');
@@ -915,8 +934,19 @@
             if (cancelBtn) cancelBtn.addEventListener('click', closeEmsModal);
             emsRegModal.addEventListener('click', e => (e.target === emsRegModal || e.target.firstElementChild === modalContent) && closeEmsModal());
             document.addEventListener('keydown', e => {
-                if (e.key === 'Escape' && !layananModal.classList.contains('hidden')) closeModal();
-                if (e.key === 'Escape' && !emsRegModal.classList.contains('hidden')) closeEmsModal();
+                if (e.key === 'Escape') {
+                    if (layananModal && !layananModal.classList.contains('hidden')) {
+                        const modalContentLayanan = document.getElementById('layanan-modal-content');
+                        if (modalContentLayanan) modalContentLayanan.classList.add('scale-95');
+                        document.body.style.overflow = '';
+                        setTimeout(() => {
+                            layananModal.classList.add('hidden');
+                            layananModal.classList.remove('flex');
+                        }, 300);
+                    }
+                    if (emsRegModal && !emsRegModal.classList.contains('hidden')) closeEmsModal();
+                }
+                if (e.key === 'Escape' && !loginModal.classList.contains('hidden')) closeLoginModal();
             });
 
             @if($errors->any())

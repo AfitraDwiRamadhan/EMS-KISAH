@@ -51,11 +51,11 @@
         <div class="modal fade" id="modalPeriode_{{ $card['id_slug'] }}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content border-0 shadow-lg rounded-4">
-                    <div class="modal-header bg-black border-0 py-3 px-4">
+                    <div class="modal-header border-0 py-3 px-4">
                         <div>
-                            <h5 class="modal-title fw-bold m-0 text-dark"><i class="fa-solid fa-file-invoice-dollar text-primary me-2"></i>Rincian Penggajian: {{ $card['label'] }}</h5>
+                            <h5 class="modal-title fw-bold m-0 text-white"><i class="fa-solid fa-file-invoice-dollar text-primary me-2"></i>Rincian Penggajian: {{ $card['label'] }}</h5>
                         </div>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body p-0">
                         <div class="table-responsive">
@@ -120,9 +120,9 @@
     <div class="modal fade" id="modalEditGaji_{{ $card['id_slug'] }}_{{ $staff_index }}"  tabindex="-1" aria-hidden="true" style="z-index: 1060;">
         <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content border-0 shadow-lg">
-                <div class="modal-header bg-light border-0 py-3">
-                    <h6 class="modal-title fw-bold text-dark"><i class="fa-solid fa-user-gear me-2 text-primary"></i>Kunci Gaji Manual</h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <div class="modal-header border-0 py-3">
+                    <h6 class="modal-title fw-bold text-white"><i class="fa-solid fa-user-gear me-2 text-primary"></i>Kunci Gaji Manual</h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <form action="{{ route('admin.gaji.storeOverride') }}" method="POST">
                     @csrf
@@ -148,9 +148,9 @@
                         <input type="number" step="0.01" id="override_bonus_{{ $card['id_slug'] }}_{{ $staff_index }}" name="bonus" class="form-control form-control-sm mb-2 font-monospace fw-bold text-warning" value="{{ $row['bonus'] }}" required oninput="calculateTotalTotal('{{ $card['id_slug'] }}', '{{ $staff_index }}')">
 
                         <label class="form-label fw-bold mb-1 text-primary">Total Bersih Diterima ($)</label>
-                        <input type="number" step="0.01" id="override_total_{{ $card['id_slug'] }}_{{ $staff_index }}" name="total" class="form-control form-control-sm font-monospace fw-bolder bg-white text-dark" value="{{ $row['total'] }}" readonly required>
+                        <input type="number" step="0.01" id="override_total_{{ $card['id_slug'] }}_{{ $staff_index }}" name="total" class="form-control form-control-sm font-monospace fw-bolder bg-slate-900 text-white border-0" value="{{ $row['total'] }}" readonly required>
                     </div>
-                    <div class="modal-footer border-0 bg-light py-2">
+                    <div class="modal-footer border-0 py-2">
                         <button type="submit" class="btn btn-primary w-100 fw-bold btn-sm">Simpan Modifikasi</button>
                     </div>
                 </form>

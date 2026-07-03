@@ -242,19 +242,45 @@
         }
         .form-control::placeholder { color: #64748b; }
 
+        /* MODERN PREMIUM MODAL STYLING WITH GLASSMORPHISM */
         .modal-content {
-            background-color: #1e293b; 
-            border: 1px solid #334155; 
+            background: rgba(30, 41, 59, 0.85) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 16px !important;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4) !important;
+            color: #f1f5f9 !important;
         }
-        .modal-header, .modal-footer {
-            border-bottom-color: #334155;
-            border-top-color: #334155;
+        .modal-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+            background: rgba(15, 23, 42, 0.4) !important;
+            border-top-left-radius: 16px !important;
+            border-top-right-radius: 16px !important;
+            padding: 16px 24px !important;
         }
-        .btn-close { filter: invert(1) grayscale(100%) brightness(200%); }
+        .modal-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+            background: rgba(15, 23, 42, 0.2) !important;
+            border-bottom-left-radius: 16px !important;
+            border-bottom-right-radius: 16px !important;
+            padding: 12px 24px !important;
+        }
+        .modal-body {
+            padding: 24px !important;
+        }
+        .btn-close { 
+            filter: invert(1) grayscale(100%) brightness(200%) !important; 
+            opacity: 0.6 !important;
+            transition: opacity 0.2s ease !important;
+        }
+        .btn-close:hover {
+            opacity: 1 !important;
+        }
 
-        .alert-success { background-color: #14532d; color: #a3e635; border-color: #166534; }
-        .alert-danger { background-color: #7f1d1d; color: #fca5a5; border-color: #991b1b; }
-        .alert-warning { background-color: #78350f; color: #fdba74; border-color: #9a3412; }
+        .alert-success { background-color: rgba(20, 83, 45, 0.8); color: #a3e635; border-color: rgba(22, 101, 52, 0.5); }
+        .alert-danger { background-color: rgba(127, 29, 29, 0.8); color: #fca5a5; border-color: rgba(153, 27, 27, 0.5); }
+        .alert-warning { background-color: rgba(120, 53, 15, 0.8); color: #fdba74; border-color: rgba(154, 52, 18, 0.5); }
 
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #1e293b; }
@@ -359,7 +385,7 @@
     <div class="modal fade" id="logoutConfirmModal" tabindex="-1" aria-labelledby="logoutConfirmModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content border-0 shadow">
-                <div class="modal-header bg-dark text-white border-0 py-3">
+                <div class="modal-header border-0 py-3">
                     <h6 class="modal-title fw-bold" id="logoutConfirmModalLabel"><i class="fa-solid fa-right-from-bracket text-danger me-2"></i>Konfirmasi Logout</h6>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -401,9 +427,9 @@
             document.body.style.overflow = ''; 
         }
 
-        toggleBtn.addEventListener('click', openSidebar);
-        closeBtn.addEventListener('click', closeSidebar);
-        overlay.addEventListener('click', closeSidebar);
+        if(toggleBtn) toggleBtn.addEventListener('click', openSidebar);
+        if(closeBtn) closeBtn.addEventListener('click', closeSidebar);
+        if(overlay) overlay.addEventListener('click', closeSidebar);
 
         // --- Logout Confirmation Logic ---
         const confirmLogoutBtn = document.getElementById('confirm-logout-button');
@@ -413,23 +439,29 @@
             });
         }
 
-
         // --- Chart.js Dark Theme Configuration ---
         if (typeof Chart !== 'undefined') {
             Chart.defaults.color = '#94a3b8'; // slate-400
-            Chart.defaults.borderColor = '#334155'; // slate-700
             
-            Chart.defaults.plugins.tooltip.backgroundColor = '#0f172a'; // slate-900
-            Chart.defaults.plugins.tooltip.titleColor = '#ffffff';
-            Chart.defaults.plugins.tooltip.bodyColor = '#cbd5e1'; // slate-300
-            Chart.defaults.plugins.tooltip.borderColor = '#ef4444'; // red-500
-            Chart.defaults.plugins.tooltip.borderWidth = 1;
-
-            Chart.defaults.scale.grid.color = '#334155'; // slate-700
-            Chart.defaults.scale.ticks.color = '#94a3b8'; // slate-400
+            // Perbaikan Chart.js v4+ Scales Configuration (menghindari warning deprecation)
+            if (Chart.defaults.scales && Chart.defaults.scales.linear) {
+                Chart.defaults.scales.linear.grid.color = '#334155';
+                Chart.defaults.scales.linear.ticks.color = '#94a3b8';
+            } else if (Chart.defaults.scale && Chart.defaults.scale.grid) {
+                Chart.defaults.scale.grid.color = '#334155';
+                Chart.defaults.scale.ticks.color = '#94a3b8';
+            }
+            
+            if (Chart.defaults.plugins && Chart.defaults.plugins.tooltip) {
+                Chart.defaults.plugins.tooltip.backgroundColor = '#0f172a'; // slate-900
+                Chart.defaults.plugins.tooltip.titleColor = '#ffffff';
+                Chart.defaults.plugins.tooltip.bodyColor = '#cbd5e1'; // slate-300
+                Chart.defaults.plugins.tooltip.borderColor = '#ef4444'; // red-500
+                Chart.defaults.plugins.tooltip.borderWidth = 1;
+            }
         }
     });
     </script>
-
+    @stack('scripts')
 </body>
 </html>

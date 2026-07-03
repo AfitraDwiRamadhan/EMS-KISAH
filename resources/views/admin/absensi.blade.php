@@ -159,34 +159,6 @@
                                 </form>
                             </td>
                         </tr>
-
-                        <div class="modal fade" id="modalKeluhan{{ $row->id }}" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content border-0 shadow">
-                                    <div class="modal-header bg-dark text-white border-0 py-3">
-                                        <h6 class="modal-title fw-bold"><i class="fa-solid fa-suitcase-medical text-warning me-2"></i>Rekapitulasi Kasus Pasien</h6>
-                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                                    </div>
-                                    <div class="modal-body p-4">
-                                        <div class="mb-2 small text-muted font-monospace">PETUGAS: <span class="text-dark fw-bold">{{ strtoupper($row->nama_petugas) }}</span></div>
-                                        <div class="mb-3 small text-muted font-monospace">TANGGAL LAPORAN: <span class="text-dark fw-bold">{{ $row->tanggal }}</span></div>
-                                        <label class="form-label fw-bold text-dark small mb-1"><i class="fa-solid fa-clipboard-list text-primary me-1"></i> Rincian Tindakan di Lapangan:</label>
-                                        <div class="card p-3 border-secondary-subtle font-monospace text-dark" style="font-size: 0.85rem; white-space: pre-line; line-height: 1.6; border-radius: 6px;">
-                                            {{ $row->keluhan_pasien }}
-                                        </div>
-                                        @if($row->keterangan && $row->keterangan !== '-')
-                                        <div class="mt-3">
-                                            <label class="form-label fw-bold text-dark small mb-1">Catatan Tambahan (Keterangan):</label>
-                                            <div class="alert alert-secondary py-2 small mb-0">{{ $row->keterangan }}</div>
-                                        </div>
-                                        @endif
-                                    </div>
-                                    <div class="modal-footer border-0 py-2">
-                                        <button type="button" class="btn btn-secondary btn-sm fw-semibold" data-bs-dismiss="modal">Tutup Dokumen</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         @empty
                         <tr>
                             <td colspan="9" class="text-center text-muted py-5">
@@ -201,6 +173,37 @@
         </div>
     </div>
 </div>
+
+<!-- CONTAINER UNTUK MODAL DETAIL KASUS (VALID HTML) -->
+@foreach($absensi as $row)
+<div class="modal fade" id="modalKeluhan{{ $row->id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header border-0 py-3">
+                <h6 class="modal-title fw-bold"><i class="fa-solid fa-suitcase-medical text-warning me-2"></i>Rekapitulasi Kasus Pasien</h6>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="mb-2 small text-slate-300 font-monospace">PETUGAS: <span class="text-white fw-bold">{{ strtoupper($row->nama_petugas) }}</span></div>
+                <div class="mb-3 small text-slate-300 font-monospace">TANGGAL LAPORAN: <span class="text-white fw-bold">{{ $row->tanggal }}</span></div>
+                <label class="form-label fw-bold text-white small mb-1"><i class="fa-solid fa-clipboard-list text-primary me-1"></i> Rincian Tindakan di Lapangan:</label>
+                <div class="card p-3 border-secondary-subtle font-monospace text-slate-300 bg-slate-900/50" style="font-size: 0.85rem; white-space: pre-line; line-height: 1.6; border-radius: 8px;">
+                    {{ $row->keluhan_pasien }}
+                </div>
+                @if($row->keterangan && $row->keterangan !== '-')
+                <div class="mt-3">
+                    <label class="form-label fw-bold text-white small mb-1">Catatan Tambahan (Keterangan):</label>
+                    <div class="alert alert-secondary py-2 small mb-0 bg-slate-800 text-slate-300 border-slate-700">{{ $row->keterangan }}</div>
+                </div>
+                @endif
+            </div>
+            <div class="modal-footer border-0 py-2">
+                <button type="button" class="btn btn-outline-secondary btn-sm fw-semibold" data-bs-dismiss="modal">Tutup Dokumen</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
 
 <div class="modal fade" id="modalBulkAbsensi" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
