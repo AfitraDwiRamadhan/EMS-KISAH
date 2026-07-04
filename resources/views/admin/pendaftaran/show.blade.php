@@ -307,6 +307,7 @@
     </div>
 </div>
 
+@push('scripts')
 <script>
     // System Clock Live Engine
     function updateClock() {
@@ -348,4 +349,5 @@
         });
     });
 </script>
+@endpush
 @endsection

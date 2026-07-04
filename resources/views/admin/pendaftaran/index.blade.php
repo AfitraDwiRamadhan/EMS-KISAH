@@ -166,6 +166,7 @@
     </div>
 </div>
 
+@push('scripts')
 <script>
     // System Clock Live Engine
     function updateClock() {
@@ -179,4 +180,5 @@
     setInterval(updateClock, 1000);
     updateClock();
 </script>
+@endpush
 @endsection
