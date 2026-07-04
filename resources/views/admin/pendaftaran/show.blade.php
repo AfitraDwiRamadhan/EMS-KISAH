@@ -160,7 +160,7 @@
                             @endphp
                             <tr>
                                 <td>
-                                    <button type="button" class="btn btn-link p-0 text-decoration-none fw-bolder text-primary text-start detail-btn" data-detail="{{ e(json_encode($detail)) }}">
+                                    <button type="button" class="btn btn-link p-0 text-decoration-none fw-bolder text-primary text-start detail-btn" data-detail="{{ base64_encode(json_encode($detail)) }}">
                                         {{ $registration->nama_ic }}
                                     </button>
                                     <div class="text-muted small">{{ $registration->jenis_kelamin }}</div>
@@ -181,7 +181,7 @@
                                 </td>
                                 <td>
                                     <div class="d-flex flex-wrap justify-content-end gap-2">
-                                        <button type="button" class="btn btn-outline-primary btn-sm fw-bold detail-btn" data-detail="{{ e(json_encode($detail)) }}">
+                                        <button type="button" class="btn btn-outline-primary btn-sm fw-bold detail-btn" data-detail="{{ base64_encode(json_encode($detail)) }}">
                                             <i class="fa-solid fa-eye"></i>
                                         </button>
 
@@ -331,7 +331,7 @@
 
         document.querySelectorAll('.detail-btn').forEach(function (button) {
             button.addEventListener('click', function () {
-                const data = JSON.parse(this.dataset.detail);
+                const data = JSON.parse(atob(this.dataset.detail));
 
                 document.getElementById('detailCreatedAt').textContent = 'Dikirim: ' + (data.created_at || '-');
                 document.getElementById('detailNama').textContent = data.nama_ic || '-';
