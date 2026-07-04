@@ -3,7 +3,7 @@
 @section('content')
 @php
     // --- Data Persiapan ---
-    $heroImage = $latestDokumentasi->first()?->foto ? asset('storage/' . $latestDokumentasi->first()->foto) : null;
+    $heroImage = $latestDokumentasi->first()?->foto ? url('image-stream/' . $latestDokumentasi->first()->foto) : null;
     $jabatanFilters = $tenagaMedis->pluck('jabatan')->filter()->unique()->values();
 
     // --- Helper Function untuk Deskripsi Jabatan ---
@@ -349,7 +349,7 @@
                 @foreach($latestDokumentasi as $item)
                     <article class="group overflow-hidden rounded-xl border-2 border-slate-800 bg-slate-900/80 backdrop-blur-md transition hover:border-red-600 hover:shadow-xl hover:shadow-red-900/20">
                         <div class="aspect-[4/3] overflow-hidden bg-slate-950">
-                            <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->judul }}" class="h-full w-full object-cover transition duration-700 group-hover:scale-110 group-hover:opacity-80">
+                            <img src="{{ url('image-stream/' . $item->foto) }}" alt="{{ $item->judul }}" class="h-full w-full object-cover transition duration-700 group-hover:scale-110 group-hover:opacity-80">
                         </div>
                         <div class="p-5">
                             <div class="flex items-center justify-between gap-3">

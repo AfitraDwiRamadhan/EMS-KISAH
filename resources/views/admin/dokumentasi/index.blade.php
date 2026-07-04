@@ -60,7 +60,7 @@
                         <div class="col-xxl-3 col-xl-4 col-md-6">
                             <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
                                 <div class="ratio ratio-4x3 bg-light">
-                                    <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->judul }}" class="w-100 h-100 object-fit-cover">
+                                    <img src="{{ url('image-stream/' . $item->foto) }}" alt="{{ $item->judul }}" class="w-100 h-100 object-fit-cover">
                                 </div>
 
                                 <div class="card-body p-3 d-flex flex-column">
@@ -87,7 +87,7 @@
                                                 data-category="{{ $item->kategori }}"
                                                 data-date="{{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}"
                                                 data-description="{{ $item->deskripsi ?: 'Tidak ada deskripsi.' }}"
-                                                data-image="{{ asset('storage/' . $item->foto) }}">
+                                                data-image="{{ url('image-stream/' . $item->foto) }}">
                                             <i class="fa-solid fa-eye me-1"></i> Detail
                                         </button>
 
