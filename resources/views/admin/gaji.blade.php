@@ -91,7 +91,16 @@
                                         <td class="text-end font-monospace text-warning fw-bold">$ {{ number_format($row['bonus'], 2, '.', ',') }}</td>
                                         <td class="text-end font-monospace fw-bolder text-dark fs-6">$ {{ number_format($row['total'], 2, '.', ',') }}</td>
                                         <td class="text-center">
-                                            <button type="button" class="btn btn-light text-primary btn-sm border shadow-sm rounded-circle" style="width: 30px; height: 30px; padding:0;" data-bs-toggle="modal" data-bs-target="#modalEditGaji_{{ $card['id_slug'] }}_{{ $staff_index }}">
+                                            <button type="button" class="btn btn-light text-primary btn-sm border shadow-sm rounded-circle btn-edit-gaji" style="width: 30px; height: 30px; padding:0;" data-staff="{{ base64_encode(json_encode([
+                                                'periode_label' => $card['label'],
+                                                'nama' => $row['nama'],
+                                                'jabatan' => $row['jabatan'],
+                                                'total_jam' => $row['total_jam'],
+                                                'hari_aktif' => $row['hari_aktif'],
+                                                'gaji_pokok' => $row['gaji_pokok'],
+                                                'bonus' => $row['bonus'],
+                                                'total' => $row['total']
+                                            ])) }}">
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                             </button>
                                         </td>
@@ -115,51 +124,48 @@
     </div>
 </div>
 
-@foreach($cards as $card)
-    @foreach($card['staff'] as $staff_index => $row)
-    <div class="modal fade" id="modalEditGaji_{{ $card['id_slug'] }}_{{ $staff_index }}"  tabindex="-1" aria-hidden="true" style="z-index: 1060;">
-        <div class="modal-dialog modal-dialog-centered modal-sm">
-            <div class="modal-content border-0 shadow-lg">
-                <div class="modal-header border-0 py-3">
-                    <h6 class="modal-title fw-bold text-white"><i class="fa-solid fa-user-gear me-2 text-primary"></i>Kunci Gaji Manual</h6>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <form action="{{ route('admin.gaji.storeOverride') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="periode_label" value="{{ $card['label'] }}">
-                    <input type="hidden" name="nama_petugas" value="{{ $row['nama'] }}">
-
-                    <div class="modal-body p-4" style="font-size:0.85rem;">
-                        <p class="mb-3 text-muted">Mengubah data finansial resmi untuk <strong>{{ $row['nama'] }}</strong>.</p>
-
-                        <label class="form-label fw-bold mb-1">Jabatan Periode Ini</label>
-                        <input type="text" name="jabatan" class="form-control form-control-sm mb-2 fw-semibold" value="{{ $row['jabatan'] }}" required>
-
-                        <label class="form-label fw-bold mb-1">Akumulasi Waktu (Jam)</label>
-                        <input type="number" step="0.1" id="override_jam_{{ $card['id_slug'] }}_{{ $staff_index }}" name="total_jam" class="form-control form-control-sm mb-2 font-monospace" value="{{ $row['total_jam'] }}" required>
-
-                        <label class="form-label fw-bold mb-1">Validasi Target (Hari Kerja)</label>
-                        <input type="number" id="override_hari_{{ $card['id_slug'] }}_{{ $staff_index }}" name="hari_aktif" class="form-control form-control-sm mb-2 font-monospace" value="{{ $row['hari_aktif'] }}" required>
-
-                        <label class="form-label fw-bold mb-1">Gaji Pokok ($)</label>
-                        <input type="number" step="0.01" id="override_pokok_{{ $card['id_slug'] }}_{{ $staff_index }}" name="gaji_pokok" class="form-control form-control-sm mb-2 font-monospace fw-bold text-success" value="{{ $row['gaji_pokok'] }}" required oninput="calculateTotalTotal('{{ $card['id_slug'] }}', '{{ $staff_index }}')">
-
-                        <label class="form-label fw-bold mb-1">Bonus Tindakan / Sesi ($)</label>
-                        <input type="number" step="0.01" id="override_bonus_{{ $card['id_slug'] }}_{{ $staff_index }}" name="bonus" class="form-control form-control-sm mb-2 font-monospace fw-bold text-warning" value="{{ $row['bonus'] }}" required oninput="calculateTotalTotal('{{ $card['id_slug'] }}', '{{ $staff_index }}')">
-
-                        <label class="form-label fw-bold mb-1 text-primary">Total Bersih Diterima ($)</label>
-                        <input type="number" step="0.01" id="override_total_{{ $card['id_slug'] }}_{{ $staff_index }}" name="total" class="form-control form-control-sm font-monospace fw-bolder bg-slate-900 text-white border-0" value="{{ $row['total'] }}" readonly required>
-                    </div>
-                    <div class="modal-footer border-0 py-2">
-                        <button type="submit" class="btn btn-primary w-100 fw-bold btn-sm">Simpan Modifikasi</button>
-                    </div>
-                </form>
+<div class="modal fade" id="modalEditGaji" tabindex="-1" aria-hidden="true" style="z-index: 1060;">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header border-0 py-3">
+                <h6 class="modal-title fw-bold text-white"><i class="fa-solid fa-user-gear me-2 text-primary"></i>Kunci Gaji Manual</h6>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
+            <form action="{{ route('admin.gaji.storeOverride') }}" method="POST">
+                @csrf
+                <input type="hidden" name="periode_label" id="edit_periode_label">
+                <input type="hidden" name="nama_petugas" id="edit_nama_petugas">
+
+                <div class="modal-body p-4" style="font-size:0.85rem;">
+                    <p class="mb-3 text-muted">Mengubah data finansial resmi untuk <strong id="edit_staff_name_label"></strong>.</p>
+
+                    <label class="form-label fw-bold mb-1">Jabatan Periode Ini</label>
+                    <input type="text" name="jabatan" id="edit_jabatan" class="form-control form-control-sm mb-2 fw-semibold" required>
+
+                    <label class="form-label fw-bold mb-1">Akumulasi Waktu (Jam)</label>
+                    <input type="number" step="0.1" name="total_jam" id="edit_total_jam" class="form-control form-control-sm mb-2 font-monospace" required>
+
+                    <label class="form-label fw-bold mb-1">Validasi Target (Hari Kerja)</label>
+                    <input type="number" name="hari_aktif" id="edit_hari_aktif" class="form-control form-control-sm mb-2 font-monospace" required>
+
+                    <label class="form-label fw-bold mb-1">Gaji Pokok ($)</label>
+                    <input type="number" step="0.01" name="gaji_pokok" id="edit_gaji_pokok" class="form-control form-control-sm mb-2 font-monospace fw-bold text-success" required oninput="calculateTotalGajiDinamis()">
+
+                    <label class="form-label fw-bold mb-1">Bonus Tindakan / Sesi ($)</label>
+                    <input type="number" step="0.01" name="bonus" id="edit_bonus" class="form-control form-control-sm mb-2 font-monospace fw-bold text-warning" required oninput="calculateTotalGajiDinamis()">
+
+                    <label class="form-label fw-bold mb-1 text-primary">Total Bersih Diterima ($)</label>
+                    <input type="number" step="0.01" name="total" id="edit_total" class="form-control form-control-sm font-monospace fw-bolder bg-slate-900 text-white border-0" readonly required>
+                </div>
+                <div class="modal-footer border-0 py-2">
+                    <button type="submit" class="btn btn-primary w-100 fw-bold btn-sm">Simpan Modifikasi</button>
+                </div>
+            </form>
         </div>
     </div>
-    @endforeach
-@endforeach
+</div>
 
+@push('scripts')
 <script>
     // System Clock Live Engine
     function updateClock() {
@@ -173,11 +179,33 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // Rumus Matematika Instan Penjumlahan Total Form Override
-    function calculateTotalTotal(slug, index) {
-        const pokok = parseFloat(document.getElementById(`override_pokok_${slug}_${index}`).value) || 0;
-        const bonus = parseFloat(document.getElementById(`override_bonus_${slug}_${index}`).value) || 0;
-        document.getElementById(`override_total_${slug}_${index}`).value = (pokok + bonus).toFixed(2);
+    document.addEventListener('DOMContentLoaded', function () {
+        const editModal = new bootstrap.Modal(document.getElementById('modalEditGaji'));
+
+        document.querySelectorAll('.btn-edit-gaji').forEach(function (button) {
+            button.addEventListener('click', function () {
+                const data = JSON.parse(atob(this.dataset.staff));
+
+                document.getElementById('edit_periode_label').value = data.periode_label;
+                document.getElementById('edit_nama_petugas').value = data.nama;
+                document.getElementById('edit_staff_name_label').textContent = data.nama;
+                document.getElementById('edit_jabatan').value = data.jabatan;
+                document.getElementById('edit_total_jam').value = data.total_jam;
+                document.getElementById('edit_hari_aktif').value = data.hari_aktif;
+                document.getElementById('edit_gaji_pokok').value = data.gaji_pokok;
+                document.getElementById('edit_bonus').value = data.bonus;
+                document.getElementById('edit_total').value = data.total;
+
+                editModal.show();
+            });
+        });
+    });
+
+    function calculateTotalGajiDinamis() {
+        const pokok = parseFloat(document.getElementById('edit_gaji_pokok').value) || 0;
+        const bonus = parseFloat(document.getElementById('edit_bonus').value) || 0;
+        document.getElementById('edit_total').value = (pokok + bonus).toFixed(2);
     }
 </script>
+@endpush
 @endsection
