@@ -38,6 +38,7 @@ class AppServiceProvider extends ServiceProvider
             config(['session.driver' => 'cookie']);
             config(['cache.default' => 'array']);
             config(['queue.default' => 'sync']);
+            config(['filesystems.disks.public.root' => '/tmp/storage/app/public']);
 
             // Salin SQLite database ke /tmp agar writable oleh Vercel Serverless
             $dbPath = database_path('database.sqlite');

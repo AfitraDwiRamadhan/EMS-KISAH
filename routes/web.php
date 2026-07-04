@@ -74,3 +74,21 @@ Route::prefix('admin')->name('admin.')->middleware('auth:petinggi')->group(funct
     });
 
 });
+
+// RUTE PENANGANAN STORAGE DINAMIS UNTUK VERCEL (FILESYSTEM READ-ONLY FALLBACK)
+Route::get('/storage/{directory}/{filename}', function ($directory, $filename) {
+    $path = "/tmp/storage/app/public/{$directory}/{$filename}";
+    
+    if (!file_exists($path)) {
+        $path = storage_path("app/public/{$directory}/{$filename}");
+    }
+    
+    if (!file_exists($path)) {
+        abort(404);
+    }
+    
+    $file = file_get_contents($path);
+    $type = mime_content_type($path);
+    
+    return response($file, 200)->header("Content-Type", $type);
+});
