@@ -14,15 +14,34 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         // Konfigurasi dinamis path cache untuk Vercel / serverless environment
-        if (env('VERCEL_URL') || env('APP_ENV') === 'production') {
+        $isVercel = isset($_SERVER['VERCEL_URL']) || env('VERCEL_URL') || str_starts_with(base_path(), '/var/task') || env('APP_ENV') === 'production';
+
+        if ($isVercel) {
+            // Pastikan direktori write-temp ada di /tmp
+            if (!is_dir('/tmp/views')) {
+                @mkdir('/tmp/views', 0755, true);
+            }
+            if (!is_dir('/tmp/sessions')) {
+                @mkdir('/tmp/sessions', 0755, true);
+            }
+
             config(['view.compiled' => '/tmp/views']);
             config(['session.files' => '/tmp/sessions']);
+            config(['app.debug' => true]);
+            config(['app.key' => 'base64:nzG785sNWY2tvVt+zvcPbiGz8ite+ZF5MHuvmiGv2uA=']); // Set default key jika env Vercel belum dipasang
+
+            // Salin SQLite database ke /tmp agar writable oleh Vercel Serverless
+            $dbPath = database_path('database.sqlite');
+            $tmpDbPath = '/tmp/database.sqlite';
+            if (file_exists($dbPath)) {
+                if (!file_exists($tmpDbPath)) {
+                    copy($dbPath, $tmpDbPath);
+                }
+                config(['database.connections.sqlite.database' => $tmpDbPath]);
+            }
         }
     }
 }

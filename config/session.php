@@ -60,7 +60,9 @@ return [
     |
     */
 
-    'files' => storage_path('framework/sessions'),
+    'files' => (isset($_SERVER['VERCEL_URL']) || str_starts_with(dirname(__DIR__), '/var/task')) 
+        ? '/tmp/sessions' 
+        : storage_path('framework/sessions'),
 
     /*
     |--------------------------------------------------------------------------
