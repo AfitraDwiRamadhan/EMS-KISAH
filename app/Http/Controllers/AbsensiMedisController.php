@@ -210,14 +210,19 @@ class AbsensiMedisController extends Controller
         
         DB::beginTransaction();
         try {
+            $semua_medis = TenagaMedis::all();
+
             foreach ($records as $rec) {
                 $nama_pencarian = rtrim(trim($rec['nama_petugas']), '.');
                 
-                $medis = TenagaMedis::where('nama', 'LIKE', '%' . $nama_pencarian . '%')->first();
-                
-                if (!$medis) {
-                    $medis = TenagaMedis::where(DB::raw('TRIM(TRAILING "." FROM TRIM(nama))'), $nama_pencarian)->first();
-                }
+                // Cari medis yang cocok di memori (case-insensitive & clean character mapping)
+                $medis = $semua_medis->first(function($m) use ($nama_pencarian) {
+                    $nama_db_bersih = rtrim(trim($m->nama), '.');
+                    if (strcasecmp($nama_db_bersih, $nama_pencarian) === 0) {
+                        return true;
+                    }
+                    return mb_stripos($m->nama, $nama_pencarian) !== false;
+                });
 
                 if (!$medis) {
                     $lewat++;
