@@ -33,6 +33,12 @@ class AppServiceProvider extends ServiceProvider
             config(['app.debug' => true]);
             config(['app.key' => 'base64:nzG785sNWY2tvVt+zvcPbiGz8ite+ZF5MHuvmiGv2uA=']); // Set default key jika env Vercel belum dipasang
 
+            // Paksa driver stateless untuk serverless agar tidak bergantung pada file .env
+            config(['logging.default' => 'stderr']);
+            config(['session.driver' => 'cookie']);
+            config(['cache.default' => 'array']);
+            config(['queue.default' => 'sync']);
+
             // Salin SQLite database ke /tmp agar writable oleh Vercel Serverless
             $dbPath = database_path('database.sqlite');
             $tmpDbPath = '/tmp/database.sqlite';
